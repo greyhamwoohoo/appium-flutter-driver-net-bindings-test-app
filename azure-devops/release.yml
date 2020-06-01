@@ -1,0 +1,40 @@
+#
+# Builds the .apk and publish the artifacts
+#
+
+trigger: none
+pr: none
+
+name: 1.0$(Rev:.r)
+
+variables:
+  - name: Build.Configuration
+    value: Release
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: ubuntu-18.04
+
+    steps:    
+    - powershell: |
+        docker build -t appium-flutter-driver-net-bindings-test-app:local ./infra/builder
+      failOnStderr: true
+      displayName: 'Docker: Build Builder Container'
+
+    - powershell: |
+        docker run -v $(Build.SourcesDirectory)/src/howdi_welt:/app --workdir=/app --name bob appium-flutter-driver-net-bindings-test-app:local bash -c "cd /app; flutter pub get; flutter clean; flutter build apk --debug; flutter build apk --release;"
+      failOnStderr: true
+      displayName: 'Build .apk'
+    
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: $(Build.SourcesDirectory)/src/howdi_welt/build/app/outputs/apk/debug/app-debug.apk
+        artifactName: 'fat-debug'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: $(Build.SourcesDirectory)/src/howdi_welt/build/app/outputs/apk/release/app-release.apk
+        artifactName: 'fat-release'
