@@ -1,4 +1,4 @@
-FROM openjdk:14.0.1-buster
+FROM openjdk:8u252-jdk-buster
 
 LABEL maintainer="greyhamwoohoo"
 
