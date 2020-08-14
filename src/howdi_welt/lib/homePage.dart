@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './findersTestPage.dart';
 import './textFieldsTestPage.dart';
 import './tapsTestPage.dart';
+import './relativeTestPage.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -45,7 +46,14 @@ class _HomePageState extends State<HomePage> {
                     context, MaterialPageRoute(builder: (context) => TapsTestPage()));                
               },
               child: Text("Navigate to Taps Test Page")
-            ),            
+            ),   
+            OutlineButton(
+              onPressed: () { 
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => RelativeTestPage()));                
+              },
+              child: Text("Navigate to Relative Test Page")
+            ),                        
           ],
         ),
       ),
