@@ -1,0 +1,14 @@
+{
+    "name": "TestApp Flutter Development",
+    "dockerFile": "Dockerfile",
+  
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+
+    "!runArgs": ["--network=host"],
+
+    "forwardPorts": [],
+
+    "postStartCommand": "socat tcp-listen:45680,reuseaddr,fork tcp:host.docker.internal:45680 &"
+}
